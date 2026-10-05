@@ -17,9 +17,10 @@
 // Animo has no paper names: a deck states its two lengths. These are the ones typst calls
 // "presentation-16-9", and with the 10mm margin they leave a body of 10.69 x 5.58 inch,
 // which is exactly the `figure.figsize` a matplotlib figure needs to fill a slide.
-#let deck-width = 16cm
-#let deck-height = 9cm
-#let deck-margin = 7.5mm
+#let deck-width = 13.333in
+#let deck-height = 7.5in
+#let deck-margin = 1cm
+#let deck-pad = 0.75cm
 
 // What the whole deck knows about itself, so that the recurring elements do not have to be
 // repeated on every slide.
@@ -144,11 +145,11 @@
 #let slide(body, title: none, ..arguments) = _plain-slide(
   {
     if title != none {
-      move(dx: -deck-margin, dy: -deck-margin, block(
-        width: deck-width,
-        inset: deck-margin,
-        fill: ugt.gray,
-        text(size: 1.2em, weight: "bold", fill: white, title),
+      move(dy: -deck-margin, block(
+        width: deck-width - deck-margin,
+        inset: deck-pad,
+        fill: ugl.gray.lighten(50%),
+        text(weight: "bold", fill: ugt.gray, title),
       ))
       v(-deck-margin)
     }
@@ -164,35 +165,36 @@
 // `subtitle`, `authors` and `note` (e.g. a date, venue or copyright line) are optional content.
 // `numbered: false` keeps the title slide out of the slide count.
 #let title-slide(title, subtitle: none, authors: none, note: none, ..arguments) = _plain-slide(
-  context {
-    rect(
-      width: deck-width,
-      height: deck-height * 0.6,
-      fill: ugc.blue,
-      inset: deck-margin,
-    )[
-      #align(bottom)[
-        #set text(fill: white)
-        #text(size: 16pt, weight: "bold", title)
-
-        #if subtitle != none {
-          text(size: 12pt, style: "italic", subtitle)
-        }
-
-        #v(1fr)
-        #text(size: 9pt, {
-          authors
-          if authors != none and note != none { linebreak() }
-          note
-        })
-      ]
-    ]
-    v(1fr)
-    _deck.get().logos
-  },
   numbered: false,
   ..arguments,
-)
+)[
+  #v(-deck-margin*1.01)
+  #rect(
+    width: deck-width - 0.99*deck-margin,
+    height: deck-height * 0.75,
+    fill: ugc.blue,
+    inset: deck-margin,
+  )[
+    #align(bottom)[
+      #set text(fill: white)
+      #text(size: 16pt, {
+        authors
+        if authors != none and note != none { linebreak() }
+        note
+      })
+
+      #v(1fr)
+
+      #text(size: 54pt, weight: "bold", title)
+
+      #if subtitle != none {
+        text(size: 24pt, subtitle)
+      }
+    ]
+  ]
+  #v(1fr)
+  #context _deck.get().logos
+]
 
 // The outline slide
 // -----------------
@@ -255,7 +257,7 @@
           let fill = if current == none {
             ink
           } else if current == key {
-            ugt.blue
+            ugc.blue
           } else {
             light
           }
@@ -265,7 +267,7 @@
             let sub-fill = if current == none {
               ink
             } else if current == key and current-sub == subkey {
-              ugt.blue
+              ugc.blue
             } else {
               light
             }
@@ -291,7 +293,6 @@
 // the title bar takes the normal shade, the border the light one.
 #let panel(body, title:none, hue: "blue") = block(
   width: 100%,
-  radius: 0.0cm,
   clip: true,
   grid(
     columns: (1fr),
@@ -299,11 +300,11 @@
       (box(
         width: 100%,
         fill: ugc.at(hue),
-        inset: 0.4cm,
-        text(fill: white, weight: "bold", size: 0.9em, title),
+        inset: deck-pad,
+        text(fill: white, weight: "bold", title),
       ),)
     },
-    box(width: 100%, inset: (x: 0.4cm, y: 0.6cm), fill: ugl.at(hue), body)
+    box(width: 100%, inset: deck-pad, fill: ugl.at(hue), body)
   ),
 )
 
@@ -334,14 +335,14 @@
   ..arguments,
 ) = {
   show: base-ugentish.with(font: font)
-  set text(size: 12pt)
+  set text(size: 24pt)
   set line(stroke: 0.5mm)
   set enum(spacing: 1em)
   set table(stroke: none)
   show raw.where(block: true): it => block(
     fill: ugl.gray.lighten(50%),
-    inset: 0.3cm,
-    radius: 0.1cm,
+    inset: 0.4cm,
+    radius: 0.2cm,
     it,
   )
   show raw.where(block: false): it => highlight(
