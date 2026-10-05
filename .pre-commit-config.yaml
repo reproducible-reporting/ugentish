@@ -33,7 +33,7 @@ repos:
     - id: nb-clean
       args: ["--remove-empty-cells", "--preserve-cell-metadata", "tags", "slideshow", "--"]
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.15.21
+  rev: v0.16.10
   hooks:
     - id: ruff-format
     - id: ruff-check
