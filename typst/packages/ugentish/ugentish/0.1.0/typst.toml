@@ -1,0 +1,8 @@
+[package]
+name = "ugentish"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["Toon Verstraelen <Toon.Verstraelen@UGent.be>"]
+license = "CC-BY-4.0"
+description = "Unofficial UGent-style colors and fonts, shared by all UGentish packages."
+compiler = "0.15.0"

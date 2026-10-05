@@ -1,0 +1,31 @@
+# Python and notebooks
+__pycache__
+.ipynb_checkpoints
+.pytest_cache
+*.egg-info
+scfopt_*.npz
+.virtual_documents
+
+# Pycharm
+.idea
+
+# Psi4
+timer.dat
+output.dat
+
+# StepUp
+.stepup
+*-inventory.txt
+venv
+*.zip
+
+# Typst (Animo compiles one deck to an HTML file next to its PDFs)
+# and executed notebooks (HTML with outputs in html/ next to each notebook)
+*.html
+*.pdf
+
+# Other outputs
+matplotlibrc
+inkscape/ugentish.gpl
+inkscape/colors.svg
+tmp/

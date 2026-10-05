@@ -1,0 +1,8 @@
+[package]
+name = "animo-ugentish"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["Toon Verstraelen <Toon.Verstraelen@UGent.be>"]
+license = "CC-BY-4.0"
+description = "Unofficial Animo slide template, adopting the less contestable UGent style guide elements."
+compiler = "0.15.0"

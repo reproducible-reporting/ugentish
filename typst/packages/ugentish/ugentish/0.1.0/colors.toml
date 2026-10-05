@@ -1,0 +1,40 @@
+[light]
+blue = "#b3d0fb"
+red = "#fbbbb9"
+green = "#a7dfa8"
+purple = "#d9c1fb"
+brown = "#dfb39e"
+teal = "#9eeaea"
+pink = "#f9b5e0"
+gray = "#ccced1"
+orange = "#fbc690"
+yellow = "#f9e89f"
+
+[normal]
+blue = "#1e64c8"
+red = "#b6303e"
+green = "#107e25"
+purple = "#7e48b7"
+brown = "#99532f"
+teal = "#10777b"
+pink = "#a53584"
+gray = "#65696e"
+orange = "#f88f26"
+yellow = "#ffd200"
+
+[text]
+blue = "#0c489c"
+red = "#8e1628"
+green = "#0f5d1b"
+purple = "#602f8f"
+brown = "#462b1e"
+teal = "#0f585b"
+pink = "#801d65"
+gray = "#4a4d52"
+orange = "#844a10"
+yellow = "#695910"
+
+[extra]
+black = "#000000"
+ink = "#102030"
+white = "#ffffff"
