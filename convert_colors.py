@@ -52,7 +52,7 @@ def convert_gpl(inp, out):
         entries.append((name, colors["normal"][name]))
         entries.append((f"light {name}", colors["light"][name]))
     with open(out[0], "w") as fh:
-        fh.write("GIMP Palette\nName: UGent 33\nColumns: 1\n#\n")
+        fh.write("GIMP Palette\nName: UGentish\nColumns: 1\n#\n")
         for name, value in entries:
             r, g, b = hex_to_rgb(value)
             fh.write(f"{r:3d} {g:4d} {b:4d} {name}\n")

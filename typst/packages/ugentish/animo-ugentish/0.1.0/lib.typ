@@ -17,8 +17,8 @@
 // Animo has no paper names: a deck states its two lengths. These are the ones typst calls
 // "presentation-16-9", and with the 10mm margin they leave a body of 10.69 x 5.58 inch,
 // which is exactly the `figure.figsize` a matplotlib figure needs to fill a slide.
-#let deck-width = 297mm
-#let deck-height = 167.0625mm
+#let deck-width = 16cm
+#let deck-height = 9cm
 #let deck-margin = 7.5mm
 
 // What the whole deck knows about itself, so that the recurring elements do not have to be
@@ -28,7 +28,7 @@
 #let _deck = state("ugentish-animo-deck", (
   short: none,
   sections: (:),
-  logos: (),
+  logos: [],
 ))
 
 // The mnemonic of the current section, written by `outline-slide` and shown in the footer.
@@ -101,7 +101,7 @@
       fill: none,
       stroke: progstroke,
     )
-    content((0, 0), text(size: 17pt, fill: ugc.gray, numbering("1", islide)))
+    content((0, 0), text(size: 12pt, fill: ugc.gray, numbering("1", islide)))
   })
 }
 
@@ -167,21 +167,20 @@
   context {
     rect(
       width: deck-width,
-      height: 10cm,
+      height: deck-height * 0.6,
       fill: ugc.blue,
       inset: deck-margin,
     )[
       #align(bottom)[
         #set text(fill: white)
-        #text(size: 36pt, weight: "bold", title)
+        #text(size: 16pt, weight: "bold", title)
 
         #if subtitle != none {
-          v(0.2cm)
-          text(size: 24pt, style: "italic", subtitle)
+          text(size: 12pt, style: "italic", subtitle)
         }
 
         #v(1fr)
-        #text(size: 16pt, {
+        #text(size: 9pt, {
           authors
           if authors != none and note != none { linebreak() }
           note
@@ -189,16 +188,7 @@
       ]
     ]
     v(1fr)
-    let logos = _deck.get().logos
-    if logos.len() > 0 {
-      grid(
-        columns: (auto,) * logos.len() + (1fr,),
-        align: left + bottom,
-        gutter: 0.75cm,
-        ..logos,
-        [],
-      )
-    }
+    _deck.get().logos
   },
   numbered: false,
   ..arguments,
@@ -332,20 +322,19 @@
 //
 // `short` is the abbreviation in the footer of every slide.
 // `sections` maps a short mnemonic to each section title, see `outline-slide`.
-// `logos` is a content or an array of content (e.g. `image("my-logo.svg")`) shown below the
-// title panel. The package contains no logos: provide your own, and respect their usage terms.
+// `logos` is content shown below the title panel.
+// The package contains no logos: provide your own, and respect their usage terms.
 // `font` selects the text font, "sans" or "serif", see `base-ugentish` in @ugentish/ugentish.
 #let animo-ugentish(
   body,
   short: none,
   sections: (:),
-  logos: (),
+  logos: [],
   font: "sans",
   ..arguments,
 ) = {
-  let logos = if type(logos) == array { logos } else { (logos,) }
   show: base-ugentish.with(font: font)
-  set text(size: 20pt)
+  set text(size: 12pt)
   set line(stroke: 0.5mm)
   set enum(spacing: 1em)
   set table(stroke: none)
