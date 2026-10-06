@@ -55,7 +55,7 @@
 // paged output) shows the one that belongs to the state on screen.
 #let _slide-indicator(islide, nslide, isub, nsub) = {
   let slide-radius = 0.5cm
-  let sub-radius = 0.3cm
+  let sub-radius = 0.33cm
   let sub-shift = 0.62cm
   let progstroke = (paint: ugc.gray, thickness: 0.6mm, cap: "round")
   cetz.canvas({
@@ -87,7 +87,7 @@
       )
       content(
         (sub-shift, -sub-shift),
-        text(size: 11pt, fill: ugc.gray, numbering("a", isub)),
+        text(size: 14pt, fill: ugc.gray, numbering("a", isub)),
       )
     }
 
@@ -102,7 +102,7 @@
       fill: none,
       stroke: progstroke,
     )
-    content((0, 0), text(size: 12pt, fill: ugc.gray, numbering("1", islide)))
+    content((0, 0), text(size: 16pt, fill: ugc.gray, numbering("1", islide)))
   })
 }
 
@@ -123,7 +123,7 @@
         bottom + left,
         dx: 0.5cm,
         dy: -0.45cm,
-        text(size: 12pt, fill: ugc.gray, short),
+        text(size: 14pt, fill: ugc.gray, short),
       )
     }
     place(
@@ -300,11 +300,11 @@
       (box(
         width: 100%,
         fill: ugc.at(hue),
-        inset: deck-pad,
+        inset: (x: deck-pad, y: deck-pad * 0.75),
         text(fill: white, weight: "bold", title),
       ),)
     },
-    box(width: 100%, inset: deck-pad, fill: ugl.at(hue), body)
+    box(width: 100%, inset: (x: deck-pad, y: deck-pad * 0.75), fill: ugl.at(hue), body)
   ),
 )
 
