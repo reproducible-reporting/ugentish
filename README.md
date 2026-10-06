@@ -1,16 +1,19 @@
 # UGentish
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Typst](https://img.shields.io/badge/Typst-0.15-239dad?logo=typst&logoColor=white)](https://typst.app/)
-[![Matplotlib](https://img.shields.io/badge/Matplotlib-matplotlibrc-11557c)](https://matplotlib.org/)
-[![Built with StepUp](https://img.shields.io/badge/built_with-StepUp-orange)](https://reproducible-reporting.github.io/stepup-core/)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-Templates and style configuration files that give documents, slides and figures
-a consistent look, loosely based on the [UGent style guide](https://styleguide.ugent.be/).
+A collection of templates and style configuration files for Typst, matplotlib and Inkscape
+that give documents, slides and figures a consistent look,
+loosely based on the [UGent style guide](https://styleguide.ugent.be/).
 This is not an official Ghent University (UGent) project.
 It is not endorsed by the university, and it contains no UGent logos or fonts.
+
+## Status
+
+This repository is in draft mode.
+Files are still being added and refined as they are used in practice.
 
 ## Overview
 
