@@ -1,7 +1,6 @@
 backend: Agg
 font.family: sans-serif
 font.sans-serif: Source Sans 3
-font.weight: 350
 mathtext.fontset: stix
 figure.dpi: 100
 figure.constrained_layout.use: True
