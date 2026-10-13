@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: © 2026 Toon Verstraelen <Toon.Verstraelen@UGent.be>
 // SPDX-License-Identifier: CC-BY-4.0
 
-#import "@preview/animo:0.1.1": *
+#import "@preview/animo:0.2.0": *
 #import "@preview/cetz:0.5.2"
 #import "@ugentish/ugentish:0.1.0": ugl, ugc, ugt, ink, fonts, base-ugentish
 
