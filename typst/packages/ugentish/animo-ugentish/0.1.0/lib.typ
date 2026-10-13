@@ -179,7 +179,10 @@
       #set text(fill: white)
       #text(size: 16pt, {
         authors
-        if authors != none and note != none { linebreak() }
+        if authors != none and note != none {
+          linebreak()
+          v(0.3em)
+        }
         note
       })
 
