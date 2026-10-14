@@ -48,7 +48,9 @@
   show raw: set text(font: fonts.mono)
   show math.equation: set text(font: fonts.math)
   // Blue links, a light underline and a yellow highlight.
-  show link: it => underline(text(fill: ugc.blue, it))
+  // The color is a set rule, so that it can be overridden, e.g. on the title slide.
+  show link: set text(fill: ugc.blue)
+  show link: underline
   set underline(offset: 0.13em, stroke: 0.065em)
   set highlight(fill: ugc.yellow, stroke: none)
   body

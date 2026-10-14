@@ -177,6 +177,8 @@
   )[
     #align(bottom)[
       #set text(fill: white)
+      // The default link color is the same blue as the panel.
+      #show link: set text(fill: white)
       #text(size: 16pt, {
         authors
         if authors != none and note != none {
