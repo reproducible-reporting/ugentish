@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: CC-BY-4.0
 
 #import "@preview/animo:0.2.0": *
-#import "@preview/cetz:0.5.2"
 #import "@ugentish/ugentish:0.1.0": ugl, ugc, ugt, ink, fonts, base-ugentish
 
 // The names imported above are part of this module's scope, so a deck that star-imports
@@ -53,56 +52,82 @@
 // subslides, so a number written straight into the overlay would be the same on all of
 // them. Its callback is laid out once per subslide and the browser (or the page of a
 // paged output) shows the one that belongs to the state on screen.
+//
+// The indicator is drawn with typst's own shapes rather than a cetz canvas.
+// It is laid out for every subslide of every slide, several times per compilation,
+// and a canvas there took about half the layout time of a deck.
+
+// A circular arc as a `curve`, clockwise from the top for a fraction of a full turn.
+//
+// The arc is split into at most four cubic Bézier segments of equal angle,
+// whose control points lie on the tangents at `4/3 tan(θ/4) r` from the end points.
+// Coordinates are those of the enclosing box, with the y-axis pointing down.
+#let _progress-arc(mid, radius, fraction, stroke) = {
+  let delta = -fraction * 360deg
+  let nseg = calc.max(1, calc.ceil(fraction * 4))
+  let step = delta / nseg
+  let k = 4 / 3 * calc.tan(step / 4) * radius
+  let point(angle) = (
+    mid.at(0) + radius * calc.cos(angle),
+    mid.at(1) - radius * calc.sin(angle),
+  )
+  let tangent(angle) = (-calc.sin(angle), -calc.cos(angle))
+  let segments = range(nseg).map(i => {
+    let a0 = 90deg + i * step
+    let a1 = a0 + step
+    let (p0, p1, t0, t1) = (point(a0), point(a1), tangent(a0), tangent(a1))
+    curve.cubic(
+      (p0.at(0) + k * t0.at(0), p0.at(1) + k * t0.at(1)),
+      (p1.at(0) - k * t1.at(0), p1.at(1) - k * t1.at(1)),
+      p1,
+    )
+  })
+  place(top + left, curve(stroke: stroke, curve.move(point(90deg)), ..segments))
+}
+
+// A translucent disk with a progress arc and a label in the middle.
+#let _progress-disk(mid, radius, fraction, label, stroke) = {
+  place(
+    top + left,
+    dx: mid.at(0) - radius,
+    dy: mid.at(1) - radius,
+    box(width: 2 * radius, height: 2 * radius, {
+      place(circle(radius: radius, fill: white.transparentize(30%), stroke: none))
+      place(center + horizon, label)
+    }),
+  )
+  if fraction > 0 {
+    _progress-arc(mid, radius - 0.5mm, fraction, stroke)
+  }
+}
+
 #let _slide-indicator(islide, nslide, isub, nsub) = {
   let slide-radius = 0.5cm
   let sub-radius = 0.33cm
   let sub-shift = 0.62cm
   let progstroke = (paint: ugc.gray, thickness: 0.6mm, cap: "round")
-  cetz.canvas({
-    import cetz.draw: *
-    // An invisible rectangle around both disks, so that the indicator keeps the same size
-    // and lands in the same corner whether or not the subslide disk is drawn.
-    rect(
-      (-slide-radius, -sub-shift - sub-radius),
-      (sub-shift + sub-radius, slide-radius),
-      fill: none,
-      stroke: none,
-    )
+  // The box covers both disks, so that the indicator keeps the same size
+  // and lands in the same corner whether or not the subslide disk is drawn.
+  let size = slide-radius + sub-shift + sub-radius
+  let slide-center = (slide-radius, slide-radius)
+  let sub-center = (slide-radius + sub-shift, slide-radius + sub-shift)
+  box(width: size, height: size, {
     if nsub > 1 {
-      let sub-angle = -isub / nsub * 360deg
-      circle(
-        (sub-shift, -sub-shift),
-        fill: white.transparentize(30%),
-        radius: sub-radius,
-        stroke: none,
-      )
-      arc(
-        (sub-shift, -sub-shift),
-        anchor: "origin",
-        start: 90deg,
-        delta: sub-angle,
-        radius: sub-radius - 0.5mm,
-        fill: none,
-        stroke: progstroke,
-      )
-      content(
-        (sub-shift, -sub-shift),
+      _progress-disk(
+        sub-center,
+        sub-radius,
+        isub / nsub,
         text(size: 14pt, fill: ugc.gray, numbering("a", isub)),
+        progstroke,
       )
     }
-
-    let slide-angle = -islide / nslide * 360deg
-    circle((0, 0), fill: white.transparentize(30%), radius: slide-radius, stroke: none)
-    arc(
-      (0, 0),
-      anchor: "origin",
-      start: 90deg,
-      delta: slide-angle,
-      radius: slide-radius - 0.5mm,
-      fill: none,
-      stroke: progstroke,
+    _progress-disk(
+      slide-center,
+      slide-radius,
+      islide / nslide,
+      text(size: 16pt, fill: ugc.gray, numbering("1", islide)),
+      progstroke,
     )
-    content((0, 0), text(size: 16pt, fill: ugc.gray, numbering("1", islide)))
   })
 }
 
