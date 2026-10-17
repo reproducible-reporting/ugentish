@@ -101,7 +101,9 @@
   }
 }
 
-#let _slide-indicator(islide, nslide, isub, nsub) = {
+//
+// A subslide that the handout keeps gets a small red H at the lower left of the slide disk.
+#let _slide-indicator(islide, nslide, isub, nsub, handout) = {
   let slide-radius = 0.5cm
   let sub-radius = 0.33cm
   let sub-shift = 0.62cm
@@ -128,6 +130,18 @@
       text(size: 16pt, fill: ugc.gray, numbering("1", islide)),
       progstroke,
     )
+    if handout {
+      // A zero-size box at the point on the rim, so that the letter is centered on it.
+      place(
+        top + left,
+        dx: slide-center.at(0) + sub-shift * 1.2,
+        dy: slide-center.at(1),
+        box(width: 0pt, height: 0pt, place(
+          center + horizon,
+          text(size: 14pt, weight: "bold", fill: ugc.gray, "H"),
+        )),
+      )
+    }
   })
 }
 
@@ -155,7 +169,10 @@
       bottom + right,
       dx: -0.2cm,
       dy: -0.2cm,
-      per-subslide(it => _slide-indicator(islide, slide-count(), it.number, it.count), wrap: box),
+      per-subslide(
+        it => _slide-indicator(islide, slide-count(), it.number, it.count, it.handout and output-type() != "handout"),
+        wrap: box,
+      ),
     )
   }
 }
